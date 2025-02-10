@@ -46,7 +46,7 @@ step2:
   mov ch, 0 ; cylinder 0
   mov cl, 2 ; sector 2
   mov dh, 0 ; head 0
-  mov bx, buffer ; read from disk
+  mov bx, buffer ; buffer address
   int 0x13
   jc error
 
