@@ -69,6 +69,12 @@ load32:
   mov ss, ax
   mov ebp, 0x00200000
   mov esp, ebp
+
+  ; enable A20 line
+  in al, 0x92
+  or al, 2
+  out 0x92, al
+
   jmp $
 times 510 - ($ - $$) db 0 ; 510 바이트까지 0으로 채움
 dw 0xaa55 ; 부트 섹터 마지막에 0xaa55를 삽입하여 부트 섹터임을 표시
