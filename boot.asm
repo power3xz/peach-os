@@ -8,7 +8,7 @@ start:
   jmp $
 
 print:
-  mov bx, 0 ; 폰트 색상
+  mov bx, 0 ; 페이지 숫자, 폰트 색상
 .loop:
   lodsb ; si가 가리키는 메모리를 al 레지스터에 로드하고 si를 증가
   ; ex)
