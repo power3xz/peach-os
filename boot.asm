@@ -1,87 +1,75 @@
 ; x86 kernel boot
-ORG 0
+ORG 0x7c00
 BITS 16
+
+CODE_SEG equ gdt_code - gdt_start
+DATA_SEG equ gdt_data - gdt_start
+
 _start:
   jmp short start
   nop
 times 33 db 0
 
 start:
-  jmp 0x7c0:step2
-
-handle_zero:
-  mov ah, 0eh
-  mov al, 'A'
-  mov bx, 0x00
-  int 0x10
-  iret
-
-handle_one:
-  mov ah, 0eh
-  mov al, 'V'
-  mov bx, 0x00
-  int 0x10
-  iret
+  jmp 0:step2
 
 step2:
   cli ; 인터럽트 비활성화
-  mov ax, 0x7c0
+  mov ax, 0x00
   mov ds, ax
   mov es, ax
-  mov ax, 0x00
   mov ss, ax
   mov sp, 0x7c00
   sti ; 인터럽트 활성화
 
-  ; ivt 초기화
-  ; 0번 인터럽트, divided by zero error
-  mov word[ss:0x00], handle_zero ; offset
-  mov word[ss:0x02], 0x7c0 ; segment
-  ; 1번 인터럽트
-  mov word[ss:0x04], handle_one ; offset
-  mov word[ss:0x06], 0x7c0 ; segment
+.load_protected:
+  cli
+  lgdt [gdt_descriptor]
+  mov eax, cr0
+  or eax, 0x1
+  mov cr0, eax
+  jmp CODE_SEG:load32
 
-  mov ah, 2 ; read sector command
-  mov al, 1 ; one sector to read
-  mov ch, 0 ; cylinder 0
-  mov cl, 2 ; sector 2
-  mov dh, 0 ; head 0
-  mov bx, buffer ; buffer address
-  int 0x13
-  jc error
+; GDT
+gdt_start:
+gdt_null:
+  dd 0x0
+  dd 0x0
+; offset 0x8
+gdt_code: ; CS should point to this
+  dw 0xffff ; segment limit first 0 - 15 bits
+  dw 0 ; base first 0 - 15 bits
+  db 0 ; base 16 - 23 bits
+  db 0x9a ; access byte
+  db 11001111b ; high 4 bits flags and the low bits flag
+  db 0 ; base 24 - 31 bits
 
-  mov si, buffer
-  call print
+; offset 0x10
+gdt_data: ; DS, SS, ES, FS, GS
+  dw 0xffff ; segment limit first 0 - 15 bits
+  dw 0 ; base first 0 - 15 bits
+  db 0 ; base 16 - 23 bits
+  db 0x92 ; access byte
+  db 11001111b ; high 4 bits flags and the low bits flag
+  db 0 ; base 24 - 31 bits
 
+gdt_end:
+gdt_descriptor:
+  dw gdt_end - gdt_start - 1
+  dd gdt_start
+
+
+[BITS 32]
+load32:
+  mov ax, DATA_SEG
+  mov ds, ax
+  mov es, ax
+  mov fs, ax
+  mov gs, ax
+  mov ss, ax
+  mov ebp, 0x00200000
+  mov esp, ebp
   jmp $
-
-error:
-  mov si, error_message
-  call print
-  jmp $
-
-print:
-  mov bx, 0 ; 페이지 숫자, 폰트 색상
-.loop:
-  lodsb ; si가 가리키는 메모리를 al 레지스터에 로드하고 si를 증가
-  ; ex)
-  ; mov al, [si] ; 출력 문자를 al 레지스터에 저장
-  ; inc si ; si를 증가
-  cmp al, 0 ; 문자열이 끝났는지 확인
-  je .done ; message의 끝에 0이 있으므로 0이 나오면 종료 -> .done으로 점프
-  call print_char ; 그렇지 않다면 print_char 호출
-  jmp .loop ; 다음 문자 출력
-.done:
-  ret
-
-print_char:
-  mov ah, 0eh ; video teletype 출력
-  int 0x10; call bios interrupt
-  ret
-
-error_message: db 'Failed to load sector', 0
-
 times 510 - ($ - $$) db 0 ; 510 바이트까지 0으로 채움
 dw 0xaa55 ; 부트 섹터 마지막에 0xaa55를 삽입하여 부트 섹터임을 표시
 
-buffer:
