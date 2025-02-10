@@ -1,8 +1,15 @@
 ; x86 kernel boot
 ORG 0
 BITS 16
+_start:
+  jmp short start
+  nop
+times 33 db 0
 
 start:
+  jmp 0x7c0:step2
+
+step2:
   cli ; 인터럽트 비활성화
   mov ax, 0x7c0
   mov ds, ax
