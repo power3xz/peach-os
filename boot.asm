@@ -41,7 +41,22 @@ step2:
   mov word[ss:0x04], handle_one ; offset
   mov word[ss:0x06], 0x7c0 ; segment
 
-  mov si, message ; message의 주소를 si레지스터에 저장
+  mov ah, 2 ; read sector command
+  mov al, 1 ; one sector to read
+  mov ch, 0 ; cylinder 0
+  mov cl, 2 ; sector 2
+  mov dh, 0 ; head 0
+  mov bx, buffer ; read from disk
+  int 0x13
+  jc error
+
+  mov si, buffer
+  call print
+
+  jmp $
+
+error:
+  mov si, error_message
   call print
   jmp $
 
@@ -64,7 +79,9 @@ print_char:
   int 0x10; call bios interrupt
   ret
 
-message: db 'Hello World!', 0
+error_message: db 'Failed to load sector', 0
 
 times 510 - ($ - $$) db 0 ; 510 바이트까지 0으로 채움
 dw 0xaa55 ; 부트 섹터 마지막에 0xaa55를 삽입하여 부트 섹터임을 표시
+
+buffer:
