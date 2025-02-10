@@ -1,8 +1,17 @@
 ; x86 kernel boot
-ORG 0x7c00 ; 0x7c00 주소 부터 시작
+ORG 0
 BITS 16
 
 start:
+  cli ; 인터럽트 비활성화
+  mov ax, 0x7c0
+  mov ds, ax
+  mov es, ax
+  mov ax, 0x00
+  mov ss, ax
+  mov sp, 0x7c00
+  sti ; 인터럽트 활성화
+
   mov si, message ; message의 주소를 si레지스터에 저장
   call print
   jmp $
