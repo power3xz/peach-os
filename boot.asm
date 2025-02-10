@@ -17,11 +17,11 @@ handle_zero:
   iret
 
 handle_one:
-mov ah, 0eh
-mov al, 'V'
-mov bx, 0x00
-int 0x10
-iret
+  mov ah, 0eh
+  mov al, 'V'
+  mov bx, 0x00
+  int 0x10
+  iret
 
 step2:
   cli ; 인터럽트 비활성화
