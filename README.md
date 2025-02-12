@@ -19,3 +19,9 @@ brew install x86_64-elf-gdb
 ```bash
 ./run.sh
 ```
+
+## debugging
+
+```bash
+./debug.sh
+```
