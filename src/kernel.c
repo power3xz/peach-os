@@ -1,4 +1,6 @@
 #include "kernel.h"
+#include "idt/idt.h"
+
 #include <stdint.h>
 #include <stddef.h>
 
@@ -69,4 +71,7 @@ void kernel_main()
 {
   terminal_initialize();
   print("hello world!\ngood");
+
+  // initialize the interrupt descriptor table
+  idt_init();
 }
