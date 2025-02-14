@@ -4,6 +4,7 @@
 #include "kernel.h"
 #include "idt/idt.h"
 #include "io/io.h"
+#include "memory/kheap.h"
 
 uint16_t *video_memory = 0;
 uint16_t terminal_row = 0;
@@ -73,6 +74,14 @@ void kernel_main()
   terminal_initialize();
   print("hello world!\ngood");
 
+  // initialize the heap
+  kheap_init();
+
   // initialize the interrupt descriptor table
   idt_init();
+  void *ptr = kmalloc(50);
+  void *ptr2 = kmalloc(5000);
+  if (ptr || ptr2)
+  {
+  }
 }
