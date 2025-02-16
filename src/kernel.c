@@ -6,6 +6,7 @@
 #include "io/io.h"
 #include "memory/kheap.h"
 #include "memory/paging.h"
+#include "disk/disk.h"
 
 uint16_t *video_memory = 0;
 uint16_t terminal_row = 0;
@@ -78,6 +79,9 @@ void kernel_main()
 
   // initialize the heap
   kheap_init();
+
+  // search and initialize the disk
+  disk_search_and_init();
 
   // initialize the interrupt descriptor table
   idt_init();
