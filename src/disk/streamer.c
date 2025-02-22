@@ -25,7 +25,7 @@ int diskstreamer_seek(struct disk_stream *stream, int pos)
 int diskstreamer_read(struct disk_stream *stream, void *out, int total)
 {
   int sector = stream->pos / PEACHOS_SECTOR_SIZE;
-  int offset = stream->pos % PEACHOS_HEAP_SIZE_BYTES;
+  int offset = stream->pos % PEACHOS_SECTOR_SIZE;
   char buf[PEACHOS_SECTOR_SIZE];
 
   int res = disk_read_block(stream->disk, sector, 1, buf);
