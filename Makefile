@@ -6,7 +6,9 @@ all: ./bin/boot.bin ./bin/kernel.bin $(FILES)
 	rm -rf ./bin/os.bin
 	dd if=./bin/boot.bin >> ./bin/os.bin
 	dd if=./bin/kernel.bin >> ./bin/os.bin
-	dd if=/dev/zero bs=512 count=100 >> ./bin/os.bin
+	dd if=/dev/zero bs=1048576 count=16 >> ./bin/os.bin
+	docker build -t peachos-mount .
+	docker run --privileged -v ./bin/os.bin:/os.bin -v ./hello.txt:/hello.txt --rm peachos-mount
 
 ./bin/kernel.bin: $(FILES)
 	i686-elf-ld -g -relocatable $(FILES) -o ./build/kernelfull.o
