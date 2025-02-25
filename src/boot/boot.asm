@@ -27,7 +27,7 @@ SectorsBig dd 0x773594
 DriveNumber db 0x80
 WinNTBit db 0x00
 Signature db 0x29
-VolumeID db 0xd105
+VolumeID dd 0xd105
 VolumeIDString db 'PEACHOS BOO'
 SystemIDString db 'FAT16   '
 
