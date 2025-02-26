@@ -98,7 +98,7 @@ ata_lba_read:
 
   ;send the total sectors to read
   mov eax, ecx
-  mov dx, 0xf2
+  mov dx, 0x1f2
   out dx, al
   ; finished sending the total sectors to read
 
