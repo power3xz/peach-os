@@ -86,7 +86,7 @@ static struct file_descriptor *file_get_descriptor(int fd)
 struct filesystem *fs_resolve(struct disk *disk)
 {
   struct filesystem *fs = 0;
-  for (int i = 0; i <= PEACHOS_MAX_FILESYSTEMS; i++)
+  for (int i = 0; i < PEACHOS_MAX_FILESYSTEMS; i++)
   {
     if (filesystems[i] != 0 && filesystems[i]->resolve(disk) == 0)
     {

@@ -171,6 +171,7 @@ int fat16_get_total_items_for_directory(struct disk *disk, uint32_t directory_st
 
     i++;
   }
+  res = i;
 
 out:
   return res;
@@ -234,6 +235,10 @@ int fat16_resolve(struct disk *disk)
   int res = 0;
   struct fat_private *fat_private = kzalloc(sizeof(struct fat_private));
   fat16_init_private(disk, fat_private);
+
+  disk->fs_private = fat_private;
+  disk->filesystem = &fat16_fs;
+
   struct disk_stream *stream = diskstreamer_new(disk->id);
   if (!stream)
   {
@@ -247,7 +252,7 @@ int fat16_resolve(struct disk *disk)
     goto out;
   }
 
-  if (fat_private->header.shared.extended_header.signature != 0x29)
+  if (fat_private->header.shared.extended_header.signature != PEACHOS_FAT16_SIGNATURE)
   {
     res = -EFSNOTUS;
     goto out;
@@ -258,9 +263,6 @@ int fat16_resolve(struct disk *disk)
     res = -EIO;
     goto out;
   }
-
-  disk->fs_private = fat_private;
-  disk->filesystem = &fat16_fs;
 
 out:
   if (stream)
