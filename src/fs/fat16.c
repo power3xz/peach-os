@@ -34,7 +34,7 @@ struct fat_header_extended
   uint8_t signature;
   uint32_t volume_id;
   uint8_t volume_id_string[11];
-  uint8_t systems_id_string[8];
+  uint8_t system_id_string[8];
 } __attribute__((packed));
 
 struct fat_header
@@ -544,7 +544,7 @@ struct fat_item *fat16_find_item_in_directory(struct disk *disk, struct fat_dire
 {
   struct fat_item *f_item = 0;
   char tmp_filename[PEACHOS_MAX_PATH];
-  for (int i = i; i < directory->total; i++)
+  for (int i = 0; i < directory->total; i++)
   {
     fat16_get_full_relative_filename(&directory->item[i], tmp_filename, sizeof(tmp_filename));
     if (istrncmp(tmp_filename, name, sizeof(tmp_filename)) == 0)
