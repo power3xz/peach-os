@@ -100,9 +100,10 @@ void kernel_main()
   if (fd)
   {
     print("\nwe opened hello.txt\n");
-    char buf[15];
-    fread(buf, 14, 1, fd);
-    buf[14] = 0x00;
+    char buf[14];
+    fseek(fd, 2, SEEK_SET);
+    fread(buf, 11, 1, fd);
+    buf[13] = 0x00;
     print(buf);
   }
   else
