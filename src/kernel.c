@@ -99,7 +99,11 @@ void kernel_main()
   int fd = fopen("0:/hello.txt", "r");
   if (fd)
   {
-    print("we opened hello.txt\n");
+    print("\nwe opened hello.txt\n");
+    char buf[15];
+    fread(buf, 14, 1, fd);
+    buf[14] = 0x00;
+    print(buf);
   }
   else
   {
