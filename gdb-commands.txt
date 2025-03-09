@@ -1,6 +1,6 @@
 target remote | qemu-system-i386 -S -gdb stdio -hda ./bin/os.bin
 add-symbol-file ./build/kernelfull.o 0x100000
-break fat16_resolve
+break kernel.c:103
 continue
 
 define hook-quit
