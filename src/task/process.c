@@ -24,11 +24,11 @@ struct process *process_current()
   return current_process;
 }
 
-int process_get(int process_id)
+struct process *process_get(int process_id)
 {
   if (process_id < 0 || process_id >= PEACHOS_MAX_PROCESSES)
   {
-    return -EINVARG;
+    return NULL;
   }
 
   return processes[process_id];
@@ -98,6 +98,34 @@ static int process_load_data(const char *filename, struct process *process)
   return res;
 }
 
+int process_get_free_slot()
+{
+  for (int i = 0; i < PEACHOS_MAX_PROCESSES; i++)
+  {
+    if (processes[i] == 0)
+    {
+      return i;
+    }
+  }
+
+  return -EISTKN;
+}
+
+int process_load(const char *filename, struct process **process)
+{
+  int res = 0;
+  int process_slot = process_get_free_slot();
+  if (process_slot < 0)
+  {
+    res = -EISTKN;
+    goto out;
+  }
+  res = process_load_for_slot(filename, process, process_slot);
+
+out:
+  return res;
+}
+
 int process_load_for_slot(const char *filename, struct process **processes, int process_slot)
 {
   int res = 0;
@@ -126,7 +154,7 @@ int process_load_for_slot(const char *filename, struct process **processes, int 
     goto out;
   }
 
-  program_stack_ptr = kazlloc(PEACHOS_USER_PROGRAM_STACK_SIZE);
+  program_stack_ptr = kzalloc(PEACHOS_USER_PROGRAM_STACK_SIZE);
   if (!program_stack_ptr)
   {
     res = -ENOMEM;

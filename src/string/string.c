@@ -55,6 +55,22 @@ char *strcpy(char *dest, const char *src)
   return res;
 }
 
+char *strncpy(char *dest, const char *src, int count)
+{
+  int i = 0;
+  for (int i = 0; i < count - 1; i++)
+  {
+    if (src[i] == 0x00)
+    {
+      break;
+    }
+
+    dest[i] = src[i];
+  }
+
+  dest[i] = 0x00;
+  return dest;
+}
 int strnlen_terminator(const char *str, int max, char terminator)
 {
   int i = 0;

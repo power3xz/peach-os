@@ -21,6 +21,8 @@ struct registers
   uint32_t ss;
 };
 
+struct process;
+
 struct task
 {
   /*
@@ -31,6 +33,9 @@ struct task
   // the registers of the task when task is not running
   struct registers registers;
 
+  // the process of the task
+  struct process *process;
+
   // the next task int the linked list
   struct task *next;
 
@@ -39,7 +44,7 @@ struct task
 };
 
 struct task *task_current();
-struct task *task_new();
+struct task *task_new(struct process *process);
 struct task *task_get_next();
 int task_free(struct task *task);
 
