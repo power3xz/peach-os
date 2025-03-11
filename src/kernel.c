@@ -16,6 +16,9 @@
 #include "gdt/gdt.h"
 #include "task/tss.h"
 #include "config.h"
+#include "task/task.h"
+#include "task/process.h"
+#include "status.h"
 
 uint16_t *video_memory = 0;
 uint16_t terminal_row = 0;
@@ -128,21 +131,15 @@ void kernel_main()
 
   enable_paging();
 
-  // enable the system interrupts
-  enable_interrupts();
+  struct process *process;
+  int res = process_load("0:/blank.bin", &process);
+  if (res != PEACHOS_ALL_OK)
+  {
+    panic("Failed to load blank.bin\n");
+  }
 
-  int fd = fopen("0:/hello.txt", "r");
-  if (fd)
-  {
-    struct file_stat s;
-    fstat(fd, &s);
-    fclose(fd);
-    print("testing\n");
-  }
-  else
-  {
-    print("error");
-  }
+  task_run_first_ever_task();
+
   while (1)
   {
   }

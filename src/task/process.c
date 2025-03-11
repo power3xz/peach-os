@@ -167,9 +167,10 @@ int process_load_for_slot(const char *filename, struct process **processes, int 
 
   // create a task
   task = task_new(_process);
-  if (ERROR_I(task))
+  if (ERROR_I(task) == 0)
   {
     res = ERROR_I(task);
+    goto out;
   }
 
   _process->task = task;
