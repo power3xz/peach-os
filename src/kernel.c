@@ -131,7 +131,7 @@ void kernel_main()
 
   enable_paging();
 
-  struct process *process;
+  struct process *process = 0;
   int res = process_load("0:/blank.bin", &process);
   if (res != PEACHOS_ALL_OK)
   {
