@@ -1,4 +1,5 @@
 {
   "cSpell.ignoreWords": ["nasm"],
-  "makefile.configureOnOpen": false
+  "makefile.configureOnOpen": false,
+  "cSpell.words": ["PEACHOS"]
 }
