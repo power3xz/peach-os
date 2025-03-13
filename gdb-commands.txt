@@ -1,6 +1,6 @@
 target remote | qemu-system-i386 -S -gdb stdio -hda ./bin/os.bin
 add-symbol-file ./build/kernelfull.o 0x100000
-break isr80h_command0_sum
+break *0x400000
 continue
 
 define hook-quit
