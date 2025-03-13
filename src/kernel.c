@@ -104,7 +104,6 @@ struct gdt_structured gdt_structured[PEACHOS_TOTAL_GDT_SEGMENTS] = {
 void kernel_main()
 {
   terminal_initialize();
-  print("hello world!\ngood");
 
   memset(gdt_real, 0x00, sizeof(gdt_real));
   get_structured_to_gdt(gdt_real, gdt_structured, PEACHOS_TOTAL_GDT_SEGMENTS);
