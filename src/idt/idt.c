@@ -13,15 +13,8 @@ extern void *interrupt_pointer_table[PEACHOS_TOTAL_INTERRUPTS];
 static ISR80H_COMMAND isr80h_commands[PEACHOS_MAX_ISR80H_COMMANDS];
 
 extern void idt_load(void *ptr);
-extern void init21h();
 extern void no_interrupt();
 extern void isr80h_wrapper();
-
-void init21h_handler()
-{
-  print("keyword pressed");
-  outb(0x20, 0x20);
-}
 
 void no_interrupt_handler()
 {
@@ -30,6 +23,7 @@ void no_interrupt_handler()
 
 void interrupt_handler(int interrupt, struct interrupt_frame *frame)
 {
+  outb(0x20, 0x20);
 }
 
 void idt_zero()
@@ -58,7 +52,6 @@ void idt_init()
     idt_set(i, interrupt_pointer_table[i]);
   }
   idt_set(0, idt_zero);
-  idt_set(0x21, init21h);
   idt_set(0x80, isr80h_wrapper);
 
   // load the interrupt descriptor table
