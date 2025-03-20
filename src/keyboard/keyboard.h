@@ -3,6 +3,8 @@
 
 typedef int (*KEYBOARD_INIT_FUNCTION)();
 
+struct process;
+
 struct keyboard
 {
   KEYBOARD_INIT_FUNCTION init;

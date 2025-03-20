@@ -1,12 +1,5 @@
 {
   "cSpell.ignoreWords": ["nasm"],
   "makefile.configureOnOpen": false,
-  "cSpell.words": ["PEACHOS"],
-  "files.associations": {
-    "*.coffee": "coffeescript",
-    ".env": "dotenv",
-    "*.wasm": "wasm",
-    "misc.h": "c",
-    "io.h": "c"
-  }
+  "cSpell.words": ["PEACHOS"]
 }

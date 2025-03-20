@@ -41,7 +41,7 @@ static int keyboard_get_tail_index(struct process *process)
   return process->keyboard.tail % sizeof(process->keyboard.buffer);
 }
 
-static void keyboard_backspace(struct process *process)
+void keyboard_backspace(struct process *process)
 {
   process->keyboard.tail -= 1;
   int real_index = keyboard_get_tail_index(process);
