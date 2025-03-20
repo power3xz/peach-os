@@ -25,6 +25,13 @@ struct process
 
   // the size of data pointed to by "ptr"
   uint32_t size;
+
+  struct keyboard_buffer
+  {
+    char buffer[PEACHOS_KEYBOARD_BUFFER_SIZE];
+    int tail;
+    int head;
+  } keyboard;
 };
 
 int process_load(const char *filename, struct process **process);
