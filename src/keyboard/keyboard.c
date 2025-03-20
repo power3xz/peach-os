@@ -7,7 +7,6 @@
 
 static struct keyboard *keyboard_list_head = 0;
 static struct keyboard *keyboard_list_last = 0;
-int keyboard_insert(struct keyboard *keyboard);
 
 void keyboard_init()
 {
