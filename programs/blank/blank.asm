@@ -6,8 +6,8 @@ global _start
 
 _start:
   call getkey
-  push message
-  mov eax, 1
+  push eax
+  mov eax, 3 ; command putchar
   int 0x80
   add esp, 4
   jmp $
