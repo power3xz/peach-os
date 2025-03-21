@@ -31,13 +31,18 @@ int diskstreamer_read(struct disk_stream *stream, void *out, int total)
   bool overflow = (offset + total_to_read) >= PEACHOS_SECTOR_SIZE;
   char buf[PEACHOS_SECTOR_SIZE];
 
+  if (overflow)
+  {
+    total_to_read -= (offset + total_to_read) - PEACHOS_SECTOR_SIZE;
+  }
+
   int res = disk_read_block(stream->disk, sector, 1, buf);
   if (res < 0)
   {
     goto out;
   }
 
-    for (int i = 0; i < total_to_read; i++)
+  for (int i = 0; i < total_to_read; i++)
   {
     *(char *)out++ = buf[offset + i];
   }
