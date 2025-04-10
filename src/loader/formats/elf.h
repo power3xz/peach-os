@@ -44,7 +44,7 @@
 #define EI_DATA 5
 
 #define ELFCLASSNONE 0
-#define ELGCLASS32 1
+#define ELFCLASS32 1
 #define ELFCLASS64 2
 #define ELFDATANONE 0
 
@@ -123,5 +123,8 @@ struct elf32_sym
   unsigned char st_other;
   elf32_half st_shndx;
 } __attribute__((packed));
+
+void *elf_get_entry_ptr(struct elf_header *elf_header);
+uint32_t elf_get_entry(struct elf_header *elf_header);
 
 #endif
