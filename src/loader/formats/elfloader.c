@@ -103,7 +103,7 @@ int elf_validate_loaded(struct elf_header *header)
           elf_valid_encoding(header) &&
           elf_has_program_header(header))
              ? PEACHOS_ALL_OK
-             : EINVARG;
+             : -EINFORMAT;
 }
 
 int elf_process_phdr_pt_load(struct elf_file *elf_file, struct elf32_phdr *phdr)

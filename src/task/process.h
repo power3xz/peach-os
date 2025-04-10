@@ -5,6 +5,11 @@
 #include "config.h"
 #include "task.h"
 
+#define PROCESS_FILETYPE_ELF 0
+#define PROCESS_FILETYPE_BINARY 1
+
+typedef unsigned char PROCESS_FILETYPE;
+
 struct process
 {
   // the process id
@@ -17,8 +22,13 @@ struct process
   // the memory (malloc) allocations of the process
   void *allocations[PEACHOS_MAX_PROGRAM_ALLOCATIONS];
 
-  // the physical pointer to the process memory
-  void *ptr;
+  PROCESS_FILETYPE filetype;
+  union
+  {
+    // the physical pointer to the process memory
+    void *ptr;
+    struct elf_file *elf_file;
+  };
 
   // the physical pointer to stack memory
   void *stack;
