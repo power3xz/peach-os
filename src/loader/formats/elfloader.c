@@ -10,10 +10,10 @@
 
 #include <stdbool.h>
 
-const char *elf_signature[] = {0x07f, 'E', 'L', 'F'};
+const char elf_signature[] = {0x07f, 'E', 'L', 'F'};
 static bool elf_valid_signature(void *buffer)
 {
-  return memcmp(buffer, elf_signature, sizeof(elf_signature)) == 0;
+  return memcmp(buffer, (void *)elf_signature, sizeof(elf_signature)) == 0;
 }
 
 static bool elf_valid_class(struct elf_header *header)
@@ -132,8 +132,9 @@ int elf_process_pheader(struct elf_file *elf_file, struct elf32_phdr *phdr)
     res = elf_process_phdr_pt_load(elf_file, phdr);
     break;
   }
+  return res;
 }
-int elf_process_pheader(struct elf_file *elf_file)
+int elf_process_pheaders(struct elf_file *elf_file)
 {
   int res = 0;
   struct elf_header *header = elf_header(elf_file);
@@ -154,7 +155,7 @@ int elf_process_loaded(struct elf_file *elf_file)
 {
   int res = 0;
   struct elf_header *header = elf_header(elf_file);
-  int res = elf_validate_loaded(header);
+  res = elf_validate_loaded(header);
   if (res < 0)
   {
     goto out;
@@ -180,7 +181,7 @@ int elf_load(const char *filename, struct elf_file **file_out)
   fd = res;
   struct file_stat stat;
   res = fstat(fd, &stat);
-  if (res <= 0)
+  if (res < 0)
   {
     goto out;
   }
