@@ -4,6 +4,7 @@
 
 int main(int argc, char **argv)
 {
+  printf("My age is %i\n", 90);
   print("hello how are you!\n");
   print(itoa(8763));
   putchar((int)'Z');
