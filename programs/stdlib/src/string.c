@@ -167,7 +167,7 @@ char *strtok(char *str, const char *delimiters)
       if (*sp == delimiters[i])
       {
         *sp = '\0';
-        return p_start;
+        break;
       }
     }
 
