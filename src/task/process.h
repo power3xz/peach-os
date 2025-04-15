@@ -11,6 +11,12 @@
 
 typedef unsigned char PROCESS_FILETYPE;
 
+struct process_allocation
+{
+  void *ptr;
+  size_t size;
+};
+
 struct process
 {
   // the process id
@@ -21,7 +27,7 @@ struct process
   struct task *task;
 
   // the memory (malloc) allocations of the process
-  void *allocations[PEACHOS_MAX_PROGRAM_ALLOCATIONS];
+  struct process_allocation allocations[PEACHOS_MAX_PROGRAM_ALLOCATIONS];
 
   PROCESS_FILETYPE filetype;
   union

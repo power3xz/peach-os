@@ -8,6 +8,9 @@ int main(int argc, char **argv)
   char *ptr = malloc(20);
   strcpy(ptr, "hello world");
   print(ptr);
+  free(ptr);
+  ptr[0] = 'B';
+  print("abc");
   while (1)
   {
   }
