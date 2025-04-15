@@ -14,8 +14,9 @@ int main(int argc, char **argv)
   {
   }
 
-  peachos_getkey_block();
-  print("hello world\n");
+  char buf[1024];
+  peachos_terminal_readline(buf, sizeof(buf), true);
+  print(buf);
   while (1)
   {
   }
