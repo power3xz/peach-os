@@ -7,6 +7,8 @@
 #include <stdint.h>
 #include <stddef.h>
 
+#define CLASSIC_KEYBOARD_CAPSLOCK 0x3A
+
 int classic_keyboard_init();
 
 static uint8_t keyboard_scan_set_one[] = {
@@ -69,6 +71,12 @@ void classic_keyboard_handle_interrupt()
   if (scancode & CLASSIC_KEYBOARD_KEY_RELEASED)
   {
     return;
+  }
+
+  if (scancode == CLASSIC_KEYBOARD_CAPSLOCK)
+  {
+    KEYBOARD_CAPS_LOCK_STATE old_state = keyboard_get_capslock(&classic_keyboard);
+    keyboard_set_capslock(&classic_keyboard, old_state == KEYBOARD_CAPS_LOCK_OFF ? KEYBOARD_CAPS_LOCK_ON : KEYBOARD_CAPS_LOCK_OFF);
   }
 
   uint8_t c = classic_keyboard_scancode_to_char(scancode);
