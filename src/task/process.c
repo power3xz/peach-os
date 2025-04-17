@@ -216,7 +216,7 @@ int process_load_switch(const char *filename, struct process **process)
   return res;
 }
 
-int process_load_for_slot(const char *filename, struct process **processes, int process_slot)
+int process_load_for_slot(const char *filename, struct process **process, int process_slot)
 {
   int res = 0;
 
@@ -270,7 +270,7 @@ int process_load_for_slot(const char *filename, struct process **processes, int 
     goto out;
   }
 
-  *processes = _process;
+  *process = _process;
 
   // add the process to the array
   processes[process_slot] = _process;
@@ -287,7 +287,7 @@ out:
   return res;
 }
 
-static int process_find_free_alocation_index(struct process *process)
+static int process_find_free_allocation_index(struct process *process)
 {
   int res = -ENOMEM;
   for (int i = 0; i < PEACHOS_MAX_PROGRAM_ALLOCATIONS; i++)
@@ -309,7 +309,7 @@ void *process_malloc(struct process *process, size_t size)
     goto out_err;
   }
 
-  int index = process_find_free_alocation_index(process);
+  int index = process_find_free_allocation_index(process);
   if (index < 0)
   {
     goto out_err;
