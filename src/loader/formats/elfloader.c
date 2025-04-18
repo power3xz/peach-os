@@ -101,7 +101,8 @@ int elf_validate_loaded(struct elf_header *header)
   return (elf_valid_signature(header) &&
           elf_valid_class(header) &&
           elf_valid_encoding(header) &&
-          elf_has_program_header(header))
+          elf_has_program_header(header) &&
+          elf_is_executable(header))
              ? PEACHOS_ALL_OK
              : -EINFORMAT;
 }
