@@ -615,7 +615,7 @@ void *fat16_open(struct disk *disk, struct path_part *path, FILE_MODE mode)
   descriptor->item = fat16_get_directory_entry(disk, path);
   if (!descriptor->item)
   {
-    err_code = ERROR(-EIO);
+    err_code = -EIO;
     goto err_out;
   }
 
