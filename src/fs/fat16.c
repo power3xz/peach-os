@@ -601,7 +601,8 @@ void *fat16_open(struct disk *disk, struct path_part *path, FILE_MODE mode)
   int err_code = 0;
   if (mode != FILE_MODE_READ)
   {
-    return ERROR(-ERDONLY);
+    err_code = -ERDONLY;
+    goto err_out;
   }
 
   descriptor = kzalloc(sizeof(struct fat_file_descriptor));
