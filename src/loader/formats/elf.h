@@ -56,7 +56,7 @@
 
 typedef uint16_t elf32_half;
 typedef uint32_t elf32_word;
-typedef uint32_t elf32_sword;
+typedef int32_t elf32_sword;
 typedef uint32_t elf32_addr;
 typedef uint32_t elf32_off;
 
