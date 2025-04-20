@@ -390,7 +390,7 @@ static int fat16_get_cluster_for_offset(struct disk *disk, int starting_cluster,
   for (int i = 0; i < clusters_ahead; i++)
   {
     int entry = fat16_get_fat_entry(disk, cluster_to_use);
-    if (entry == 0xff8 || entry == 0xfff)
+    if (entry == 0xfff8 || entry == 0xffff)
     {
       res = -EIO;
       goto out;
