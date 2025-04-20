@@ -131,7 +131,7 @@ void kernel_main()
   memset(gdt_real, 0x00, sizeof(gdt_real));
   get_structured_to_gdt(gdt_real, gdt_structured, PEACHOS_TOTAL_GDT_SEGMENTS);
   // load the gdt
-  gdt_load(gdt_real, sizeof(gdt_real));
+  gdt_load(gdt_real, sizeof(gdt_real) - 1);
   // initialize the heap
   kheap_init();
 
