@@ -655,6 +655,7 @@ int fat16_read(struct disk *disk, void *descriptor, uint32_t size, uint32_t nmem
 
     out_ptr += size;
     offset += size;
+    fat_desc->pos += size;
   }
 
   res = nmemb;
