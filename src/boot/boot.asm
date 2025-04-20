@@ -90,9 +90,17 @@ load32:
   mov ss, ax
   mov fs, ax
   mov gs, ax
+
+  ; enable A20 line
+  in al, 0x92
+  or al, 2
+  out 0x92, al
+
+  ; for the loading
   mov eax, 1
   mov ecx, 100
   mov edi, 0x0100000
+
   call ata_lba_read
   jmp CODE_SEG:0x0100000
 
