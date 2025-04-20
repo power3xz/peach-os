@@ -107,6 +107,8 @@ struct path_root *pathparser_parse(const char *path, const char *current_directo
   int res = 0;
   const char *tmp_path = path;
   struct path_root *path_root = 0;
+  struct path_part *first_part = 0;
+  struct path_part *part = 0;
 
   if (strlen(path) > PEACHOS_MAX_PATH)
   {
@@ -126,7 +128,7 @@ struct path_root *pathparser_parse(const char *path, const char *current_directo
     res = -1;
     goto out;
   }
-  struct path_part *first_part = pathparser_parse_path_part(NULL, &tmp_path);
+  first_part = pathparser_parse_path_part(NULL, &tmp_path);
   if (!first_part)
   {
     res = -1;
@@ -134,7 +136,7 @@ struct path_root *pathparser_parse(const char *path, const char *current_directo
   }
 
   path_root->first = first_part;
-  struct path_part *part = pathparser_parse_path_part(first_part, &tmp_path);
+  part = pathparser_parse_path_part(first_part, &tmp_path);
   while (part)
   {
     part = pathparser_parse_path_part(part, &tmp_path);
